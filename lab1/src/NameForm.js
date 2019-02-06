@@ -12,13 +12,20 @@ class NameForm extends React.Component {
     this.setState({value: event.target.value});
   }
     handleSubmit(event) {
+      event.preventDefault();
+
     //alert('Welcome and Greetings, ' + this.state.value);
-    if (!/[^a-zA-Z]+/.test(this.state.value))
+    if (/[^a-zA-Z]+/.test(this.state.value)) {
+    // If the user input is not valid
+    this.state.setValid (false);
+  }
+  else {
+    if (this.state.value != "") {
     this.setState({nameAvailable: true});
+    this.state.setValid(true);
   }
-  else () {
-    this.state.setValid.setState(false);
   }
+}
 
 
   render() {
@@ -35,7 +42,7 @@ class NameForm extends React.Component {
           : null}
           </form>);
         } else {
-          return (<div>good morning {this.save.value}</div>);
+          return (<div>Thanks! {this.state.value}</div>);
         }
       }
     }

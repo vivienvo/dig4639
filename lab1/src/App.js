@@ -11,13 +11,14 @@ class App extends Component {
   }
   setValid(value)
   {
-    this.state.isValid = ({isValid:value});
+    this.setState ({isValid:value});
     console.log("Getting input")
   }
   render() {
-    return(<div> <NameForm  setValid={this.Setvalid}/>
+    return(<div>
+      <NameForm  setValid={this.setValid}/>
     {(!this.state.isValid) ?
-      <div class="errortext">Error not alpha input</div>
+      <div className="errortext">Error not alpha input</div>
     : null}
     </div>)
     }
