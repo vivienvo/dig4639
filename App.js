@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'blue',
+    backgroundColor:'#3D307F',
     height:75,
     margin:30,
   },
@@ -88,6 +88,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   error:{
+    justifyContent: 'center',
+    alignItems: 'center',
     color:"red",
     fontSize: 20,
   }
