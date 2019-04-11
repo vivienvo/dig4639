@@ -22,8 +22,8 @@ export default class HomeScreen extends React.Component {
   }
   render() {
     const {navigate} = this.props.navigation;
-    let cat1 = require('../assets/images/cat1.png');
-    let cat2 = require('../assets/images/cat2.png');
+    let oil1 = require('../assets/images/rose.jpg');
+    let oil2 = require('../assets/images/lavender.png');
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -33,15 +33,15 @@ export default class HomeScreen extends React.Component {
             <FlatList
              data={[{key: 'Black Cat',
                     title:"myTitle",
-                    image: cat1},
+                    image: oil1},
                     {key: 'Stripped Cat',
-                    image: require('../assets/images/cat2.png')},
+                    image: require('../assets/images/lavender.png')},
                     {key: 'Batman',
-                    image: cat1},
+                    image: oil1},
                     {key: 'Robin',
-                    image: cat2},
+                    image: oil2},
                     {key: 'Harry Potter',
-                    image: cat1},
+                    image: oil1},
                   ]}
 
              keyExtractor={this._keyExtractor}
@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
                 navigate("Detail", {title: item.key, Image: item.image});
                 console.log(item.key)
               }}>
-                <Image source={item.image} style={{width:200,height:200}} />
+                <Image source={item.image} style={{width:100,height:100}} />
               </TouchableOpacity>}
             />
           </View>
