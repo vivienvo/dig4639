@@ -1,0 +1,10 @@
+
+             keyExtractor={this._keyExtractor}
+              renderItem={({item}) => <View style={{paddingBottom:10}}>
+              <TouchableOpacity
+              onPress={(event) => {
+                navigate("Detail", {title: item.key, Image: item.image, info: item.info});
+                console.log(item.key)
+              }}>
+                  </TouchableOpacity>
+            </View>

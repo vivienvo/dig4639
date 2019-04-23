@@ -10,8 +10,12 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
+import SearchInput, { createFilter } from 'react-native-search-filter';
+import Oils from '../oils';
 import { MonoText } from '../components/StyledText';
+const KEYS_TO_FILTERS = ['title', 'info'];
+
+
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -20,51 +24,65 @@ export default class HomeScreen extends React.Component {
   _gotoScreen = (key) => {
     console.log("Going to " + key);
   }
+
+  constructor(props) {
+     super(props);
+     this.state = {
+       searchTerm: ''
+     }
+   }
+   searchUpdated(term) {
+     this.setState({ searchTerm: term })
+   }
   render() {
     const {navigate} = this.props.navigation;
-    let oil1 = require('../assets/images/rose.jpg');
-    let oil2 = require('../assets/images/lavender.png');
+    const filteredOils = Oils.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Cats are amazing</Text>
+            <Text style={styles.getStartedText}>Essential Oils 101</Text>
 
-            <FlatList
-             data={[{key: 'Black Cat',
-                    title:"myTitle",
-                    image: oil1},
-                    {key: 'Stripped Cat',
-                    image: require('../assets/images/lavender.png')},
-                    {key: 'Batman',
-                    image: oil1},
-                    {key: 'Robin',
-                    image: oil2},
-                    {key: 'Harry Potter',
-                    image: oil1},
-                  ]}
 
-             keyExtractor={this._keyExtractor}
-              renderItem={({item}) => <TouchableOpacity
-              onPress={(event) => {
-                navigate("Detail", {title: item.key, Image: item.image});
-                console.log(item.key)
-              }}>
-                <Image source={item.image} style={{width:100,height:100}} />
-              </TouchableOpacity>}
-            />
-          </View>
+            <SearchInput
+              onChangeText={(term) => { this.searchUpdated(term) }}
+              style={styles.searchInput}
+              placeholder="Search..."
+              />
+            <ScrollView>
+              {filteredOils.map(oil => {
+                return (
+                  <TouchableOpacity
+                  onPress={()=>{
+                    navigate("Detail", {title: oil.key, Image: oil.image, info: oil.info});
+                    console.log(oil.key)
+                  }
+                  } key={oil.key} style={styles.oilItem}>
+                    <View>
+                      <Text>{oil.title}</Text>
+                      <Image source={oil.image} style={{width:300, height:250}} />
+
+                    </View>
+                  </TouchableOpacity>
+                );})}
+                </ScrollView>
+            </View>
         </ScrollView>
       </View>
     );
   }
-
 }
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#E2DEFF',
   },
   developmentModeText: {
     marginBottom: 20,
@@ -74,7 +92,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 40,
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -91,6 +109,7 @@ const styles = StyleSheet.create({
   getStartedContainer: {
     alignItems: 'center',
     marginHorizontal: 50,
+    paddingBottom: 30,
   },
   homeScreenFilename: {
     marginVertical: 7,
@@ -104,10 +123,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   getStartedText: {
-    fontSize: 17,
+    fontSize: 40,
     color: 'rgba(96,100,109, 1)',
     lineHeight: 24,
     textAlign: 'center',
+    paddingBottom: 10,
+    paddingTop: 20,
   },
   tabBarInfoContainer: {
     position: 'absolute',
@@ -147,5 +168,12 @@ const styles = StyleSheet.create({
   helpLinkText: {
     fontSize: 14,
     color: '#2e78b7',
+  },
+  searchInput:{
+    padding: 10,
+    width: 400,
+    borderColor: '#CCC',
+    borderWidth: 1,
+    backgroundColor: '#FEF6EA',
   },
 });
